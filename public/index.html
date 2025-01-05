@@ -23,8 +23,25 @@
     <h1>Data Pembacaan Cahaya</h1>
     <div id="lightData">Menunggu data...</div>
 
+
     <script>
-        const socket = new WebSocket('ws://125.165.249.203:81'); // Ganti dengan IP ESP32 Anda
+        const socket = new WebSocket('ws://my-project-opal-rho.vercel.app/api/websocket');
+
+        socket.onmessage = function(event) {
+            document.getElementById('lightData').innerText = event.data;
+        };
+    </script>
+
+
+    <!-- <script>
+        const socket = new WebSocket('ws://my-project-opal-rho.vercel.app'); // Ganti dengan IP ESP32 Anda
+        
+        //IP Public
+        //const socket = new WebSocket('ws://125.165.249.203:81'); // Ganti dengan IP ESP32 Anda
+        
+        //IP Local
+        //const socket = new WebSocket('ws://192.168.149.105:81'); // Ganti dengan IP ESP32 Anda
+
 
         socket.onopen = () => {
             console.log('Connected to WebSocket');
@@ -41,6 +58,7 @@
         socket.onclose = () => {
             console.log('WebSocket connection closed');
         };
-    </script>
+    </script> -->
+
 </body>
 </html>
