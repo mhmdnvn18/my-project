@@ -1,7 +1,7 @@
 const { WebSocketServer } = require('ws');
+const http = require('http');
 
 const wss = new WebSocketServer({ noServer: true });
-
 let clients = [];
 
 // Event ketika client terhubung
@@ -29,7 +29,7 @@ wss.on('connection', (ws) => {
 });
 
 // Handler HTTP untuk Vercel (untuk WebSocket)
-export default function handler(req, res) {
+function handler(req, res) {
     if (req.method === 'GET') {
         res.status(200).send('WebSocket server is running!');
     } else if (req.method === 'POST') {
@@ -39,6 +39,22 @@ export default function handler(req, res) {
     }
 }
 
+// Buat server HTTP
+const server = http.createServer(handler);
+
+// Hubungkan WebSocketServer ke server HTTP
+server.on('upgrade', (request, socket, head) => {
+    wss.handleUpgrade(request, socket, head, (ws) => {
+        wss.emit('connection', ws, request);
+    });
+});
+
+// Jalankan server di port 443
+server.listen(443, () => {
+    console.log('Server is listening on port 443');
+});
+
+// Konfigurasi API untuk Vercel
 export const config = {
     api: {
         bodyParser: false,  // Disable bodyParser untuk WebSocket

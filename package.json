@@ -1,8 +1,10 @@
 {
-    "name": "light-sensor-data",
-    "version": "1.0.0",
-    "scripts": {
+  "name": "light-sensor-data",
+  "version": "1.0.0",
+  "scripts": {
       "start": "vercel dev"
-    }
+  },
+  "dependencies": {
+      "ws": "^8.0.0"  // Versi terbaru dari ws, sesuaikan dengan versi yang Anda butuhkan
   }
-  
+}

@@ -1,8 +1,8 @@
 {
   "functions": {
-      "api/websocket.js": {
-          "memory": 128,
-          "maxDuration": 10
-      }
+    "api/websocket.js": {
+      "memory": 256,  // Meningkatkan memori jika diperlukan
+      "maxDuration": 60  // Meningkatkan durasi maksimum untuk koneksi WebSocket
+    }
   }
 }

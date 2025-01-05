@@ -27,9 +27,21 @@
         // Hubungkan ke server WebSocket Vercel
         const socket = new WebSocket('wss://my-project-pr8rig78i-muhammad-novians-projects.vercel.app/api/websocket');
 
+        socket.onopen = function() {
+            console.log("WebSocket connection established");
+        };
+
         socket.onmessage = function(event) {
             // Update elemen dengan data yang diterima dari WebSocket
             document.getElementById('lightData').innerText = event.data;
+        };
+
+        socket.onerror = function(error) {
+            console.error("WebSocket error:", error);
+        };
+
+        socket.onclose = function(event) {
+            console.log("WebSocket connection closed:", event);
         };
     </script>
 </body>
