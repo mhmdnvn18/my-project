@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Sensor Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        #lightData {
+            font-size: 1.5em;
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <h1>Data Pembacaan Cahaya</h1>
+    <div id="lightData">Menunggu data...</div>
+
+    <script>
+        const socket = new WebSocket('ws://125.165.249.203:81'); // Ganti dengan IP ESP32 Anda
+
+        socket.onopen = () => {
+            console.log('Connected to WebSocket');
+        };
+
+        socket.onmessage = (event) => {
+            document.getElementById('lightData').innerText = event.data;
+        };
+
+        socket.onerror = (error) => {
+            console.error('WebSocket Error:', error);
+        };
+
+        socket.onclose = () => {
+            console.log('WebSocket connection closed');
+        };
+    </script>
+</body>
+</html>
