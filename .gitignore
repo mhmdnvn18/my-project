@@ -1,9 +1,14 @@
 #include <WiFi.h>
 #include <WebSocketsClient.h>
 
+// Informasi WiFi
 const char* ssid = "iphone";
 const char* password = "12345678";
 
+// URL WebSocket server yang di-host di Vercel
+const char* webSocketServer = "my-project-pr8rig78i-muhammad-novians-projects.vercel.app/api/websocket";
+
+// Inisialisasi WebSocketClient
 WebSocketsClient webSocket;
 
 void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
@@ -24,7 +29,7 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
 void setup() {
   Serial.begin(115200);
 
-  // Hubungkan ke WiFi
+  // Menghubungkan ESP32 ke WiFi
   WiFi.begin(ssid, password);
   Serial.print("Connecting to WiFi");
   while (WiFi.status() != WL_CONNECTED) {
@@ -33,16 +38,21 @@ void setup() {
   }
   Serial.println("\nConnected to WiFi");
 
-  // Hubungkan ke WebSocket server
-  webSocket.beginSSL("my-project-opal-rho.vercel.app/", 443, "/api/websocket");
+  // Menghubungkan ke server WebSocket (Vercel)
+  webSocket.beginSSL(webSocketServer, 443, "/api/websocket");
   webSocket.onEvent(webSocketEvent);
 }
 
 void loop() {
-  webSocket.loop();
+  if (WiFi.status() == WL_CONNECTED) {
+    webSocket.loop();  // Memproses event WebSocket
+  } else {
+    Serial.println("WiFi disconnected, reconnecting...");
+    WiFi.reconnect();  // Mencoba menghubungkan kembali ke WiFi
+  }
 
-  // Kirim data setiap detik
-  String message = String("Light: ") + random(100, 1000) + " lx"; // Ganti dengan data sensor
+  // Mengirim data ke WebSocket setiap detik
+  String message = String("Light: ") + random(100, 1000) + " lx";  // Ganti dengan data sensor
   webSocket.sendTXT(message);
   delay(1000);
 }
