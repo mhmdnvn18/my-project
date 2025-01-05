@@ -21,17 +21,16 @@
 </head>
 <body>
     <h1>Data Pembacaan Cahaya</h1>
-    <div id="lightData">Menunggu data...</div>
-
+    <div id="lightData"></div>
 
     <script>
-        const socket = new WebSocket('ws://my-project-pr8rig78i-muhammad-novians-projects.vercel.app/api/websocket');
+        // Hubungkan ke server WebSocket Vercel
+        const socket = new WebSocket('wss://my-project-pr8rig78i-muhammad-novians-projects.vercel.app/api/websocket');
 
         socket.onmessage = function(event) {
+            // Update elemen dengan data yang diterima dari WebSocket
             document.getElementById('lightData').innerText = event.data;
         };
     </script>
-
-
 </body>
 </html>

@@ -28,12 +28,11 @@ wss.on('connection', (ws) => {
     });
 });
 
-// Handler HTTP untuk Vercel (jembatan ke WebSocket server)
+// Handler HTTP untuk Vercel (untuk WebSocket)
 export default function handler(req, res) {
     if (req.method === 'GET') {
         res.status(200).send('WebSocket server is running!');
     } else if (req.method === 'POST') {
-        // Placeholder untuk komunikasi HTTP jika diperlukan
         res.status(200).send('Data received via POST');
     } else {
         res.status(405).send('Method Not Allowed');
@@ -42,6 +41,6 @@ export default function handler(req, res) {
 
 export const config = {
     api: {
-        bodyParser: false, // Disable bodyParser untuk WebSocket
+        bodyParser: false,  // Disable bodyParser untuk WebSocket
     },
 };
